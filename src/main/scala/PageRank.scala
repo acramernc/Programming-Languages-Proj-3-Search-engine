@@ -1,5 +1,6 @@
 import scala.util.Random
 import scala.collection.parallel.CollectionConverters._
+import scala.collection.mutable.Map
 
 object PageRank {
     
@@ -23,6 +24,18 @@ object PageRank {
     */
     def indegree(pages: Map[String, WebPage]): Map[String, Double] = {
         // TODO: complete implementation
+        val indegreeMap = scala.collection.mutable.Map.empty[String, Double]
+        for (page <- pages.values) {
+            for (linkId <- page.links) {
+                if (indegreeMap contains linkId) {
+                    indegreeMap(linkId) = indegree(linkId) + 1.0
+                }
+                else {
+                    indegreeMap + (link -> 1.0)
+                }
+            }
+        }
+        indegreeMap
     }
 
     /*
