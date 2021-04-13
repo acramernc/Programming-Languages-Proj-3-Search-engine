@@ -1,9 +1,8 @@
 import scala.util.Random
-import scala.collection.parallel.CollectionConverters._
-import scala.collection.mutable.Map
+//import scala.collection.parallel.CollectionConverters._
 
 object PageRank {
-    
+
     // Method should be complete - all strings in pages map are mapped to 1.0 --> Needs to be tested
     def equal(pages: Map[String, WebPage]): Map[String, Double] = {
         val result = pages.foldLeft(Map.empty[String, Double]) { case (map, (k, v)) =>
@@ -14,7 +13,7 @@ object PageRank {
                 map + (k -> 1.0)
             }
         }
-        result
+        result.toMap
     }
 
     /*
@@ -23,19 +22,19 @@ object PageRank {
     page's list of links. This will need to be converted to a double
     */
     def indegree(pages: Map[String, WebPage]): Map[String, Double] = {
-        // TODO: complete implementation
-        val indegreeMap = scala.collection.mutable.Map.empty[String, Double]
+        var map = scala.collection.mutable.Map[String, Double]()
         for (page <- pages.values) {
-            for (linkId <- page.links) {
-                if (indegreeMap contains linkId) {
-                    indegreeMap(linkId) = indegree(linkId) + 1.0
+            for (item <- page.links) {
+                if (map contains item) {
+                    map(item) = map(item) + 1.0
                 }
                 else {
-                    indegreeMap + (link -> 1.0)
+                    map += (item -> 1.0)
                 }
             }
         }
-        indegreeMap
+        println(map.size)
+        map.toMap
     }
 
     /*
@@ -50,5 +49,6 @@ object PageRank {
     */
     def pagerank(pages: Map[String, WebPage]): Map[String, Double] = {
         // TODO: complete implementation
+        Map("a" -> 1.0)
     }
 }
