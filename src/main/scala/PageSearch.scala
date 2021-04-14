@@ -10,7 +10,7 @@ object PageSearch {
 
     def tf(pages: List[RankedWebPage], query: List[String]): List[Double] = {
         pages.map((p: RankedWebPage) => {
-            (for (q <- query) yield p.text.split(q).length).sum / p.text.length
+            (for (q <- query) yield p.text.split(q,-1).length - 1).sum /  p.text.length.toDouble
         })
     }
 
