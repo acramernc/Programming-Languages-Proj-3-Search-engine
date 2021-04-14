@@ -9,10 +9,16 @@ object PageSearch {
     }
 
     def tf(pages: List[RankedWebPage], query: List[String]): List[Double] = {
-        // TODO: complete implementation
+        pages.map((p: RankedWebPage) => {
+            (for (q <- query) yield p.text.split(q).length).sum / p.text.length
+        })
     }
 
     def tfidf(pages: List[RankedWebPage], query: List[String]): List[Double] = {
-        // TODO: complete implementation
+
+    }
+
+    def idf(pages: List[RankedWebPage], term:String): Double ={
+        math.log((for(p <- pages) yield p.text.split(term).length).sum / (pages.length +1))
     }
 }
