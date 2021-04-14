@@ -15,10 +15,12 @@ object PageSearch {
     }
 
     def tfidf(pages: List[RankedWebPage], query: List[String]): List[Double] = {
-
+        pages.map((p: RankedWebPage) => {
+            (for (q<-query) yield tf(List[RankedWebPage](p), List[String](q))(0) * idf(pages, q)).sum
+        })
     }
 
     def idf(pages: List[RankedWebPage], term:String): Double ={
-        math.log((for(p <- pages) yield p.text.split(term).length).sum / (pages.length +1))
+        math.log( pages.length.toDouble / ((for(p <- pages if p.text.contains(term)) yield 1).sum + 1) )
     }
 }
