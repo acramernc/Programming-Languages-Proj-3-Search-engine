@@ -22,7 +22,7 @@ object PageRank {
     page's list of links. This will need to be converted to a double
     */
     def indegree(pages: Map[String, WebPage]): Map[String, Double] = {
-        var map = scala.collection.mutable.Map[String, Double]()
+        val map = scala.collection.mutable.Map[String, Double]()
         for (page <- pages.values) {
             for (item <- page.links) {
                 if (map contains item) {
@@ -48,7 +48,35 @@ object PageRank {
     distribution of the importance of the pages in our system. 
     */
     def pagerank(pages: Map[String, WebPage]): Map[String, Double] = {
-        // TODO: complete implementation
-        Map("a" -> 1.0)
+        // 1. Choose a random starting vertex
+        val rng = scala.util.Random  
+        def walk(current: WebPage, steps: Int): WebPage = steps match {
+            case 0 => current
+            case s if (rng.nextDouble <= 0.15 || current.links.length < 1) => {
+                val pagesList = pages.values.toList
+                walk(pagesList(rng.nextInt(pages.values.size)), steps - 1)
+            }
+            case _ => {
+                val pageId = current.links(rng.nextInt(current.links.length))
+                val nextPage = pages(pageId)
+                walk(nextPage, steps - 1)
+            }
+        }
+        val list = pages.values.toList
+        println(s"Start Point: ${list(1).id}")
+        println(s"Start Point Links: ${list(1).links}")
+        println(s"End Point: ${walk(list(1), 100).id}")
+
+        // Try to do it first not in parallel
+        val map = scala.collection.mutable.Map[String, Double]()
+        val webPages = pages.values.toList
+        val dataList = 1 to 10000
+        for (i <- 1 to 10000) {
+            val random = rng.nextInt(webPages.size)
+            val walkResult = walk(webPages(random), 100)
+            if (map contains walkResult.id) { map(walkResult.id) = map(walkResult.id) + 1.0 }
+            else { map += (walkResult.id -> 1.0) }
+        }
+        map.toMap
     }
 }
