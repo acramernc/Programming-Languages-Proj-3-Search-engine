@@ -3,16 +3,9 @@ import scala.collection.parallel.CollectionConverters._
 
 object PageSearch {
     def count(pages: List[RankedWebPage], query: List[String]): List[Double] = {
-        var searchResult = scala.collection.mutable.ListBuffer.empty[Double]
-        for (page <- pages) {
-            var total = 0
-            for (q <- query) {
-                val count = page.text.sliding(q.length).count(_ == q) //count the number of times q appears in page
-                total += count
-            }
-            searchResult.addOne(total)
-        }
-        searchResult.toList
+        pages.map((p: RankedWebPage) => {
+            (for (q <- query) yield p.text.split(q).length).sum
+        })
     }
 
     def tf(pages: List[RankedWebPage], query: List[String]): List[Double] = {
