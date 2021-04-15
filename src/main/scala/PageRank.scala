@@ -33,7 +33,6 @@ object PageRank {
                 }
             }
         }
-        println(map.size)
         map.toMap
     }
 
