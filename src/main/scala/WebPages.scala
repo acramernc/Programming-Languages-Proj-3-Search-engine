@@ -1,6 +1,5 @@
 class WebPage(val id: String, val name: String, val url: String,
               val text: String, val links: List[String]) {
-    
 }
 
 class RankedWebPage(override val id: String, override val name: String, override val url: String, override val text: String,

@@ -32,7 +32,7 @@ object AskWillie {
         //Loop for the searching
         while(true){
             print(Console.GREEN + "Search: " + Console.WHITE)
-            val queryList = scala.io.StdIn.readLine().split(" ").toList
+            val queryList = scala.io.StdIn.readLine().split(" ").toList.map(s => s.toLowerCase)
             if(queryList(0) == ":quit") System.exit(0)  //Exit the program if the user types :quit
 
             //Zip together the normalized Pages and the searches and then send those to SearchedWebPage objects
@@ -92,7 +92,7 @@ object AskWillie {
         // load all pages from the file line by line
         val pages = (for (line <- fh.getLines) yield {
             val id::name::url::text::links = line.split(",").toList
-            new WebPage(id, name, url, text, links)
+            new WebPage(id, name, url, text.toLowerCase, links)
         }).toList
         fh.close
         pages
