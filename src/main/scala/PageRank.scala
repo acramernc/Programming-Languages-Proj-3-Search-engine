@@ -62,9 +62,6 @@ object PageRank {
             }
         }
         val list = pages.values.toList
-        println(s"Start Point: ${list(1).id}")
-        println(s"Start Point Links: ${list(1).links}")
-        println(s"End Point: ${walk(list(1), 100).id}")
 
         // Try to do it first not in parallel
         val map = scala.collection.mutable.Map[String, Double]()

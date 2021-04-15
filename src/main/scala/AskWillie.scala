@@ -12,6 +12,8 @@ object AskWillie {
         println("\\____|__  /____  >__|_ \\   \\__/\\  / |__|____/____/__|\\___  >")
         println("        \\/     \\/     \\/        \\/                       \\/")
         println("=============================================================")
+        println(Console.YELLOW + "INSTRUCTIONS:\nWait For the " + Console.GREEN + "\"Search:\"" + Console.YELLOW + " to appear.")
+        println(Console.YELLOW + "To exit the search type: " + Console.RED + "\":quit\"")
 
         // Load WebPage.id -> WebPage map to better handle graph
         val pages: Map[String, WebPage] = mapWebPages(loadWebPages)
@@ -22,8 +24,10 @@ object AskWillie {
 
         val pagesRanked = pr(pages)
         val normalizedRankedPages = normalizeRanks(pages,pagesRanked)
+        
 
         while(true){
+            print(Console.GREEN + "Search: " + Console.WHITE)
             val queryList = scala.io.StdIn.readLine().split(" ").toList
             if(queryList(0) == ":quit") System.exit(0)
 
@@ -31,9 +35,9 @@ object AskWillie {
             val normalizedMatchedRatingsSearchedWebPages = normalizeMatchRatings(zippedRankedAndSearched).toArray
 
             Sorting.quickSort(normalizedMatchedRatingsSearchedWebPages)(meanclass)
-            for(p <- Range(normalizedMatchedRatingsSearchedWebPages.length-1, normalizedMatchedRatingsSearchedWebPages.length-11,-1)) println(normalizedMatchedRatingsSearchedWebPages(p).name + " " + normalizedMatchedRatingsSearchedWebPages(p).url)
-
+            for(p <- Range(normalizedMatchedRatingsSearchedWebPages.length-1, normalizedMatchedRatingsSearchedWebPages.length-11,-1)) println( Console.WHITE + (normalizedMatchedRatingsSearchedWebPages.length - p) + ". " + Console.WHITE + normalizedMatchedRatingsSearchedWebPages(p).name + " " + Console.BLUE + normalizedMatchedRatingsSearchedWebPages(p).url)
         }
+        
     }
 
     object ArithmeticMeanOrdering extends Ordering[SearchedWebPage]{
