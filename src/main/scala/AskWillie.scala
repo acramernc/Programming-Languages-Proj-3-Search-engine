@@ -18,6 +18,7 @@ object AskWillie {
 
         val pr = PageRank.pagerank _
         val ps = PageSearch.tfidf _
+        val meanclass = GeometricMeanOrdering
 
         val pagesRanked = pr(pages)
         val normalizedRankedPages = normalizeRanks(pages,pagesRanked)
@@ -29,7 +30,7 @@ object AskWillie {
             val zippedRankedAndSearched = normalizedRankedPages zip ps(normalizedRankedPages,queryList)
             val normalizedMatchedRatingsSearchedWebPages = normalizeMatchRatings(zippedRankedAndSearched).toArray
 
-            Sorting.quickSort(normalizedMatchedRatingsSearchedWebPages)(GeometricMeanOrdering)
+            Sorting.quickSort(normalizedMatchedRatingsSearchedWebPages)(meanclass)
             for(p <- Range(normalizedMatchedRatingsSearchedWebPages.length-1, normalizedMatchedRatingsSearchedWebPages.length-11,-1)) println(normalizedMatchedRatingsSearchedWebPages(p).name + " " + normalizedMatchedRatingsSearchedWebPages(p).url)
 
         }
